@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_arduino">
+
+    <fragment
+        android:id="@+id/navigation_arduino"
+        android:name="com.example.ardubluetooth.ui.arduino.ArduinoFragment"
+        android:label="@string/title_arduino"
+        tools:layout="@layout/fragment_arduino" />
+
+    <fragment
+        android:id="@+id/navigation_pair_devices"
+        android:name="com.example.ardubluetooth.ui.pair_devices.PairDevicesFragment"
+        android:label="@string/title_pair_devices"
+        tools:layout="@layout/fragment_pair_devices" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.example.ardubluetooth.ui.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

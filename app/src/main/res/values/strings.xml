@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Ardu Bluetooth</string>
+    <string name="title_arduino">Arduino</string>
+    <string name="title_pair_devices">Parear Dispositivo</string>
+    <string name="title_settings">Configurações</string>
+    <string name="text_leds">Leds</string>
+    <string name="text_pinos">Pinos</string>
+    <string name="search_devices">Procurar Dispositivos</string>
+
+    <string-array name="pins_arduino">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>A0</item>
+        <item>A1</item>
+        <item>A2</item>
+        <item>A3</item>
+        <item>A4</item>
+        <item>A5</item>
+    </string-array>
+
+</resources>
