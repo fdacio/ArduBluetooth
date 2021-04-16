@@ -14,8 +14,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/border_button"
         android:contentDescription="@string/text_leds"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_led_red_24dp"
+        android:src="@drawable/led_red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -25,8 +24,7 @@
         android:layout_height="90dp"
         android:background="@drawable/border_button"
         android:contentDescription="@string/text_leds"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_led_yellow_24"
+        android:src="@drawable/led_yellow"
         app:layout_constraintEnd_toStartOf="@+id/ledGreen"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toEndOf="@+id/ledRed"
@@ -40,8 +38,7 @@
         android:background="@drawable/border_button"
         android:contentDescription="@string/text_leds"
         android:padding="0dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_led_green_24dp"
+        android:src="@drawable/led_green"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintTop_toTopOf="@+id/ledYellow" />
