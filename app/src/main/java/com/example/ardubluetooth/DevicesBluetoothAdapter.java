@@ -1,8 +1,12 @@
 package com.example.ardubluetooth;
 
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,49 +14,60 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class DevicesBluetoothAdapter extends RecyclerView.Adapter<DevicesBluetoothAdapter.ViewHolder> {
+public class DevicesBluetoothAdapter extends BaseAdapter {
 
-    private List<DevicesFounded> deviceList;
+    private LayoutInflater mInflater;
+    private List<BluetoothDevice> mData;
 
-    public DevicesBluetoothAdapter(List<DevicesFounded> deviceList) {
-        this.deviceList = deviceList;
+    public DevicesBluetoothAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public void setData(List<BluetoothDevice> data) {
+        mData = data;
+    }
 
-        private final TextView textViewDeviceName;
-        private final TextView textViewDeviceAddress;
+    public int getCount() {
+        return (mData == null) ? 0 : mData.size();
+    }
 
-        public ViewHolder(View view) {
-            super(view);
-            textViewDeviceName = (TextView) view.findViewById(R.id.textViewDeviceName);
-            textViewDeviceAddress = (TextView) view.findViewById(R.id.textViewDeviceAddress);
+    public Object getItem(int position) {
+        return null;
+    }
+
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.devices_adapter, null);
+
+            holder = new ViewHolder();
+
+            holder.nameTv = (TextView) convertView.findViewById(R.id.textViewDeviceName);
+            holder.addressTv = (TextView) convertView.findViewById(R.id.textViewDeviceAddress);
+            //holder.pairBtn		= (Button) convertView.findViewById(R.id.btn_pair);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
-        public TextView getTextViewDeviceName() {
-            return textViewDeviceName;
-        }
+        BluetoothDevice device = mData.get(position);
 
-        public TextView getTextViewDeviceAddress() {
-            return textViewDeviceAddress;
-        }
+        holder.nameTv.setText(device.getName());
+        holder.addressTv.setText(device.getAddress());
+
+        return convertView;
     }
 
-    @NonNull
-    @Override
-    public DevicesBluetoothAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.devices_adapter, parent, false);
-        return new ViewHolder(view);
+    static class ViewHolder {
+        TextView nameTv;
+        TextView addressTv;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull DevicesBluetoothAdapter.ViewHolder holder, int position) {
-        holder.getTextViewDeviceName().setText(deviceList.get(position).getName());
-        holder.getTextViewDeviceAddress().setText(deviceList.get(position).getAddress());
-    }
 
-    @Override
-    public int getItemCount() {
-        return deviceList.size();
-    }
 }
