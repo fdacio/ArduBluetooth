@@ -57,8 +57,8 @@ public class DevicesBluetoothAdapter extends BaseAdapter {
         }
 
         BluetoothDevice device = mData.get(position);
-
-        holder.nameTv.setText(device.getName());
+        String nameDevice = (device.getName() == null) ? "Dispositivo " + position : device.getName();
+        holder.nameTv.setText(nameDevice);
         holder.addressTv.setText(device.getAddress());
 
         return convertView;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.arduino.ArduinoFragment">
+    tools:context=".ui.leds.LedsFragment">
 
     <ImageButton
         android:id="@+id/ledRed"
@@ -14,9 +14,9 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/border_button"
         android:contentDescription="@string/text_leds"
-        android:src="@drawable/led_red"
+        android:src="@drawable/led_red_low"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/ledYellow"
@@ -24,7 +24,7 @@
         android:layout_height="90dp"
         android:background="@drawable/border_button"
         android:contentDescription="@string/text_leds"
-        android:src="@drawable/led_yellow"
+        android:src="@drawable/led_yellow_low"
         app:layout_constraintEnd_toStartOf="@+id/ledGreen"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toEndOf="@+id/ledRed"
@@ -38,7 +38,7 @@
         android:background="@drawable/border_button"
         android:contentDescription="@string/text_leds"
         android:padding="0dp"
-        android:src="@drawable/led_green"
+        android:src="@drawable/led_green_low"
         app:layout_constraintEnd_toEndOf="parent"
 
         app:layout_constraintTop_toTopOf="@+id/ledYellow" />
@@ -48,7 +48,7 @@
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="@+id/ledRed"
         app:layout_constraintHorizontal_bias="1.0"
@@ -78,25 +78,58 @@
         app:layout_constraintTop_toTopOf="@+id/spinnerPinYellow" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/text_leds"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/text_pinos"
-        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchRed" />
+
+    <Switch
+        android:id="@+id/switchRed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="false"
+        android:clickable="false"
+        android:text="@string/sinal"
+        android:textOff="@string/low"
+        android:textOn="@string/high"
+        app:layout_constraintEnd_toEndOf="@+id/ledRed"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ledRed"
         app:layout_constraintTop_toBottomOf="@+id/ledRed" />
+
+    <Switch
+        android:id="@+id/switchYellow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="false"
+        android:clickable="false"
+        android:text="@string/sinal"
+        android:textOff="@string/low"
+        android:textOn="@string/high"
+        app:layout_constraintEnd_toEndOf="@+id/ledYellow"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ledYellow"
+        app:layout_constraintTop_toBottomOf="@+id/ledYellow" />
+
+    <Switch
+        android:id="@+id/switchGreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:checked="false"
+        android:clickable="false"
+        android:text="@string/sinal"
+        android:textOff="@string/low"
+        android:textOn="@string/high"
+        app:layout_constraintStart_toStartOf="@+id/ledGreen"
+        app:layout_constraintTop_toBottomOf="@+id/ledGreen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

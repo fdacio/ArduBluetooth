@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/navigation_arduino"
-        android:name="com.example.ardubluetooth.ui.arduino.ArduinoFragment"
-        android:label="@string/title_arduino"
-        tools:layout="@layout/fragment_arduino" />
+        android:name="com.example.ardubluetooth.ui.leds.LedsFragment"
+        android:label="@string/title_leds"
+        tools:layout="@layout/fragment_leds" />
 
     <fragment
         android:id="@+id/navigation_pair_devices"
-        android:name="com.example.ardubluetooth.ui.pair_devices.PairDevicesFragment"
-        android:label="@string/title_pair_devices"
-        tools:layout="@layout/fragment_pair_devices" />
+        android:name="com.example.ardubluetooth.ui.bluetooth.BluetoothFragment"
+        android:label="@string/title_bluetooth"
+        tools:layout="@layout/fragment_bluetooth" />
 
     <fragment
         android:id="@+id/navigation_settings"

@@ -1,11 +1,9 @@
-package com.example.ardubluetooth.ui.pair_devices;
+package com.example.ardubluetooth.ui.bluetooth;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,65 +12,53 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ardubluetooth.BluetoothConnection;
 import com.example.ardubluetooth.ConnectionThread;
 import com.example.ardubluetooth.DevicesBluetoothAdapter;
-import com.example.ardubluetooth.DevicesFounded;
-import com.example.ardubluetooth.MainActivity;
 import com.example.ardubluetooth.R;
-import com.example.ardubluetooth.ui.arduino.ArduinoFragment;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-public class PairDevicesFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class BluetoothFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_PERMISSION_BLUETOOTH = 2;
     private BluetoothAdapter bluetoothAdapter;
-    private PairDevicesViewModel pairDevicesViewModel;
+    private BluetoothViewModel pairDevicesViewModel;
     private final static int REQUEST_ENABLE_BLUETOOTH = 1;
     private ArrayList<BluetoothDevice> listDevicesFounded = new ArrayList<BluetoothDevice>();
     private ListView listViewDevices;
     private BroadcastReceiver receiver;
     private ProgressDialog mProgressDlg;
+    private View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        pairDevicesViewModel = new ViewModelProvider(this).get(PairDevicesViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_pair_devices, container, false);
+        pairDevicesViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
+        root = inflater.inflate(R.layout.fragment_bluetooth, container, false);
 
         receiver = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
                 if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                    listDevicesFounded = new ArrayList<>();
+                    listDevicesFounded.clear();
                     mProgressDlg.show();
                 } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                     mProgressDlg.dismiss();
@@ -81,7 +67,9 @@ public class PairDevicesFragment extends Fragment implements AdapterView.OnItemC
                     listViewDevices.setAdapter(devicesBluetoothAdapter);
                 } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                     BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    listDevicesFounded.add(device);
+                    if (!listDevicesFounded.contains(device)) {
+                        listDevicesFounded.add(device);
+                    }
                 }
             }
         };
@@ -110,12 +98,12 @@ public class PairDevicesFragment extends Fragment implements AdapterView.OnItemC
 
         habilitaBluetooth();
         permCoarse();
+        setDevicesPaired();
 
         Button btnSearchDevices = root.findViewById(R.id.buttonSearchDevices);
         btnSearchDevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 bluetoothAdapter.startDiscovery();
             }
         });
@@ -125,7 +113,7 @@ public class PairDevicesFragment extends Fragment implements AdapterView.OnItemC
 
     private void permCoarse() {
         // Handling permissions.
-        if (ContextCompat.checkSelfPermission(getContext(),  Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Permission is not granted
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
                 // Not to annoy user.
@@ -153,8 +141,9 @@ public class PairDevicesFragment extends Fragment implements AdapterView.OnItemC
         }
     }
 
-    private void setDevicesDiscovered() {
+    private void setDevicesPaired() {
         Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+        listDevicesFounded.clear();
         for (BluetoothDevice bt : pairedDevices) {
             listDevicesFounded.add(bt);
         }
@@ -195,22 +184,27 @@ public class PairDevicesFragment extends Fragment implements AdapterView.OnItemC
         super.onDestroy();
     }
 
-    //Pareamento
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    //Pareamento aqui
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        listDevicesFounded.get(position).getAddress();
-        String deviceAddress = listDevicesFounded.get(position).getAddress();
-        Toast.makeText(getContext(), deviceAddress, Toast.LENGTH_SHORT).show();
 
-        ConnectionThread connectionThread =  ConnectionThread.getInstance(deviceAddress);
-        connectionThread.start();
-        try {
-            Thread.sleep(1000);
-        } catch (Exception E) {
-            E.printStackTrace();
+        BluetoothDevice devicePaired = listDevicesFounded.get(position);
+        BluetoothConnection bluetoothConnection = BluetoothConnection.getInstance(devicePaired);
+        if (!bluetoothConnection.isConnected()) {
+            bluetoothConnection.start();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("Pareado com: " + devicePaired.getName());
+            Snackbar.make(root, devicePaired.getName() + " pareado com sucesso.", Snackbar.LENGTH_SHORT).show();
         }
 
+        /*
+        ConnectionThread connectionThread = ConnectionThread.getInstance(deviceAddress);
+        connectionThread.disconect();
+        if (!connectionThread.isAlive()) {
+            connectionThread.start();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle("Pareado com: " + devicePaired.getName());
+            Snackbar.make(root, devicePaired.getName() + " pareado com sucesso.", Snackbar.LENGTH_SHORT).show();
+        }
+        */
     }
 
 }

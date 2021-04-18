@@ -3,11 +3,11 @@
     <item
         android:id="@+id/navigation_pair_devices"
         android:icon="@drawable/ic_bluetooth_24dp"
-        android:title="@string/title_pair_devices" />
+        android:title="@string/title_bluetooth" />
     <item
         android:id="@+id/navigation_arduino"
         android:icon="@drawable/ic_arduino_24dp"
-        android:title="@string/title_arduino" />
+        android:title="@string/title_leds" />
     <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings_24dp"

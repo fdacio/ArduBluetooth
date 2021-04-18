@@ -1,16 +1,16 @@
-package com.example.ardubluetooth.ui.arduino;
+package com.example.ardubluetooth.ui.bluetooth;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ArduinoViewModel extends ViewModel {
+public class BluetoothViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ArduinoViewModel() {
+    public BluetoothViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is dashboard fragment");
     }
 
     public LiveData<String> getText() {

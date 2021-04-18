@@ -25,7 +25,6 @@ public class ConnectionThread extends Thread {
     private boolean running = false;
     private boolean isConnected = false;
 
-
     public static ConnectionThread getInstance() {
         if (instance == null) {
             instance = new ConnectionThread();
@@ -54,17 +53,13 @@ public class ConnectionThread extends Thread {
         //myUUID = btAdapter.getAddress();
     }
 
-
     public void run() {
         this.running = true;
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
         if (this.server) {
             try {
-                btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord("LEDS", UUID.fromString(myUUID));
+                btServerSocket = btAdapter.listenUsingRfcommWithServiceRecord(myUUID, UUID.fromString(myUUID));
                 btSocket = btServerSocket.accept();
-                if (btSocket != null) {
-                    btServerSocket.close();
-                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -73,14 +68,9 @@ public class ConnectionThread extends Thread {
                 BluetoothDevice btDevice = btAdapter.getRemoteDevice(btDevAddress);
                 btSocket = btDevice.createRfcommSocketToServiceRecord(UUID.fromString(myUUID));
                 btAdapter.cancelDiscovery();
-                if (btSocket != null) {
-                    btSocket.connect();
-                }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
         if (btSocket != null) {
@@ -88,15 +78,20 @@ public class ConnectionThread extends Thread {
             try {
                 input = btSocket.getInputStream();
                 output = btSocket.getOutputStream();
-                while (running) {
-                    byte[] buffer = new byte[1024];
-                    int bytes;
-                    int bytesRead = -1;
-                    do {
-                        bytes = input.read(buffer, bytesRead + 1, 1);
-                        bytesRead += bytes;
-                    } while (buffer[bytesRead] != '\n');
-                }
+
+                    while (running) {
+                        byte[] buffer = new byte[1024];
+                        int bytes;
+                        int bytesRead = -1;
+                        do {
+                            if(input != null) {
+                                bytes = input.read(buffer, bytesRead + 1, 1);
+                                bytesRead += bytes;
+                            }
+
+                        } while (buffer[bytesRead] != '\n');
+                    }
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -116,19 +111,27 @@ public class ConnectionThread extends Thread {
         }
     }
 
-    public void cancel() {
-        try {
-            running = false;
-            this.isConnected = false;
-            btServerSocket.close();
-            btSocket.close();
+    public void disconect() {
 
+        running = false;
+        this.isConnected = false;
+
+        try {
+            this.isConnected = false;
+            if (btServerSocket != null) {
+                btServerSocket.close();
+                btServerSocket = null;
+            }
+            if (btSocket != null) {
+                btSocket.close();
+                btSocket = null;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        running = false;
-        this.isConnected = false;
+
     }
+
 
     public boolean isConnected() {
         return this.isConnected;

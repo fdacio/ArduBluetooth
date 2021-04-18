@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">Ardu Bluetooth</string>
-    <string name="title_arduino">Arduino</string>
-    <string name="title_pair_devices">Parear Dispositivo</string>
+    <string name="title_leds">Leds</string>
+    <string name="title_bluetooth">Bluetooth</string>
     <string name="title_settings">Configurações</string>
     <string name="text_leds">Leds</string>
     <string name="text_pinos">Pinos</string>
     <string name="search_devices">Procurar Dispositivos</string>
+    <string name="sinal" >Sinal</string>
 
     <string-array name="pins_arduino">
         <item>2</item>
@@ -27,5 +28,7 @@
         <item>A4</item>
         <item>A5</item>
     </string-array>
+    <string name="high">High</string>
+    <string name="low">Low</string>
 
 </resources>
