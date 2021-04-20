@@ -15,8 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ardubluetooth.BluetoothConnection;
-import com.example.ardubluetooth.ConnectionThread;
+import com.example.ardubluetooth.BluetoothConnectionTask;
 import com.example.ardubluetooth.R;
 
 public class LedsFragment extends Fragment {
@@ -52,21 +51,20 @@ public class LedsFragment extends Fragment {
         spinnerPinGreen.setAdapter(adapter);
         spinnerPinGreen.setSelection(2);
 
-
         ImageButton imageButtonLedRed = root.findViewById(R.id.ledRed);
         imageButtonLedRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchRed.setChecked(!switchRed.isChecked());
-                if(switchRed.isChecked()) {
+                if(!switchRed.isChecked()) {
                     imageButtonLedRed.setImageResource(R.drawable.led_red);
                 } else {
                     imageButtonLedRed.setImageResource(R.drawable.led_red_low);
                 }
 
-                String pino = spinnerPinRed.getSelectedItem().toString();
-                boolean sinal = switchRed.isChecked();
-                BluetoothConnection.getInstance().write("1".getBytes());
+                int pino =  Integer.parseInt(spinnerPinRed.getSelectedItem().toString());
+                int sinal = (switchRed.isChecked()) ? 0:1;
+                BluetoothConnectionTask.getInstance().write(String.valueOf((pino*10)+sinal).getBytes());
             }
         });
 
@@ -75,15 +73,15 @@ public class LedsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 switchYellow.setChecked(!switchYellow.isChecked());
-                if(switchYellow.isChecked()) {
+                if(!switchYellow.isChecked()) {
                     imageButtonLedYellow.setImageResource(R.drawable.led_yellow);
                 } else {
                     imageButtonLedYellow.setImageResource(R.drawable.led_yellow_low);
                 }
 
-                String pino = spinnerPinYellow.getSelectedItem().toString();
-                boolean sinal = switchYellow.isChecked();
-                BluetoothConnection.getInstance().write("2".getBytes());
+                int pino =  Integer.parseInt(spinnerPinYellow.getSelectedItem().toString());
+                int sinal = (switchYellow.isChecked()) ? 0:1;
+                BluetoothConnectionTask.getInstance().write(String.valueOf((pino*10)+sinal).getBytes());
             }
         });
 
@@ -92,19 +90,20 @@ public class LedsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 switchGreen.setChecked(!switchGreen.isChecked());
-                if(switchGreen.isChecked()) {
+                if(!switchGreen.isChecked()) {
                     imageButtonLedGreen.setImageResource(R.drawable.led_green);
                 } else {
                     imageButtonLedGreen.setImageResource(R.drawable.led_green_low);
                 }
 
-                String pino = spinnerPinGreen.getSelectedItem().toString();
-                boolean sinal = switchGreen.isChecked();
-                BluetoothConnection.getInstance().write("3".getBytes());
+                int pino =  Integer.parseInt(spinnerPinGreen.getSelectedItem().toString());
+                int sinal = (switchGreen.isChecked()) ? 0:1;
+                BluetoothConnectionTask.getInstance().write(String.valueOf((pino*10)+sinal).getBytes());
             }
         });
 
         return root;
     }
+
 
 }

@@ -30,5 +30,6 @@
     </string-array>
     <string name="high">High</string>
     <string name="low">Low</string>
+    <string name="desconectar">Desconectar</string>
 
 </resources>

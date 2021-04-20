@@ -3,6 +3,7 @@ package com.example.ardubluetooth;
 import android.os.Bundle;
 
 
+import com.example.ardubluetooth.ui.bluetooth.BluetoothFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        ConnectionThread.getInstance().disconect();
         super.onDestroy();
     }
 }
