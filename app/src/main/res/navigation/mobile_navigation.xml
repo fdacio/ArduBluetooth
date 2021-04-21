@@ -3,19 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_pair_devices">
+    app:startDestination="@+id/navigation_bluetooth">
 
     <fragment
-        android:id="@+id/navigation_arduino"
+        android:id="@+id/navigation_leds"
         android:name="com.example.ardubluetooth.ui.leds.LedsFragment"
         android:label="@string/title_leds"
         tools:layout="@layout/fragment_leds" />
 
     <fragment
-        android:id="@+id/navigation_pair_devices"
+        android:id="@+id/navigation_bluetooth"
         android:name="com.example.ardubluetooth.ui.bluetooth.BluetoothFragment"
         android:label="@string/title_bluetooth"
         tools:layout="@layout/fragment_bluetooth" />
+
+    <fragment
+        android:id="@+id/navigation_servo"
+        android:name="com.example.ardubluetooth.ui.servo.ServoFragment"
+        android:label="@string/title_servo"
+        tools:layout="@layout/fragment_servo" />
 
     <fragment
         android:id="@+id/navigation_settings"

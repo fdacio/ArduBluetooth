@@ -10,7 +10,7 @@ public class LedsViewModel extends ViewModel {
 
     public LedsViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is Leds fragment");
     }
 
     public LiveData<String> getText() {

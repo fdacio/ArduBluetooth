@@ -15,16 +15,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ardubluetooth.BluetoothConnectionTask;
+import com.example.ardubluetooth.BluetoothConnection;
+import com.example.ardubluetooth.BluetoothInstance;
 import com.example.ardubluetooth.R;
 
 public class LedsFragment extends Fragment {
 
-    private LedsViewModel arduinoViewModel;
+    private LedsViewModel ledsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        arduinoViewModel = new ViewModelProvider(this).get(LedsViewModel.class);
+        ledsViewModel = new ViewModelProvider(this).get(LedsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_leds, container, false);
 
         Spinner spinnerPinRed = root.findViewById(R.id.spinnerPinRed);
@@ -37,7 +38,7 @@ public class LedsFragment extends Fragment {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.pins_arduino, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        arduinoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        ledsViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
 
@@ -51,7 +52,7 @@ public class LedsFragment extends Fragment {
         spinnerPinGreen.setAdapter(adapter);
         spinnerPinGreen.setSelection(2);
 
-        ImageButton imageButtonLedRed = root.findViewById(R.id.ledRed);
+        ImageButton imageButtonLedRed = root.findViewById(R.id.servoMoto);
         imageButtonLedRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +65,11 @@ public class LedsFragment extends Fragment {
 
                 int pino =  Integer.parseInt(spinnerPinRed.getSelectedItem().toString());
                 int sinal = (switchRed.isChecked()) ? 0:1;
-                BluetoothConnectionTask.getInstance().write(String.valueOf((pino*10)+sinal).getBytes());
+
+                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
+                if (bluetoothConnection != null) {
+                    bluetoothConnection.write(String.valueOf((pino*10)+sinal).getBytes());
+                }
             }
         });
 
@@ -81,7 +86,11 @@ public class LedsFragment extends Fragment {
 
                 int pino =  Integer.parseInt(spinnerPinYellow.getSelectedItem().toString());
                 int sinal = (switchYellow.isChecked()) ? 0:1;
-                BluetoothConnectionTask.getInstance().write(String.valueOf((pino*10)+sinal).getBytes());
+
+                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
+                if (bluetoothConnection != null) {
+                    bluetoothConnection.write(String.valueOf((pino*10)+sinal).getBytes());
+                }
             }
         });
 
@@ -98,7 +107,11 @@ public class LedsFragment extends Fragment {
 
                 int pino =  Integer.parseInt(spinnerPinGreen.getSelectedItem().toString());
                 int sinal = (switchGreen.isChecked()) ? 0:1;
-                BluetoothConnectionTask.getInstance().write(String.valueOf((pino*10)+sinal).getBytes());
+
+                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
+                if (bluetoothConnection != null) {
+                    bluetoothConnection.write(String.valueOf((pino*10)+sinal).getBytes());
+                }
             }
         });
 

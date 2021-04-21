@@ -13,9 +13,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
 
-public class BluetoothConnectionTask extends AsyncTask<Void, Void, BluetoothDevice> {
+public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> {
 
-    private static BluetoothConnectionTask instance;
     private BluetoothSocket mmSocket;
     private OutputStream mmOutStream;
     private boolean connected = false;
@@ -24,27 +23,11 @@ public class BluetoothConnectionTask extends AsyncTask<Void, Void, BluetoothDevi
     private Context mmContext;
     private ProgressDialog progressDialog;
 
-    public static BluetoothConnectionTask getInstance(BluetoothDevice device, BluetoothConnectionListener listener, Context context) {
-        if (instance == null) {
-            instance = new BluetoothConnectionTask(device, listener, context);
-        }
-        return instance;
-    }
 
-    public static BluetoothConnectionTask getInstance() {
-        if (instance == null) {
-            instance = new BluetoothConnectionTask();
-        }
-        return instance;
-    }
-
-    public BluetoothConnectionTask(BluetoothDevice device, BluetoothConnectionListener listener, Context context) {
+    public BluetoothConnection(BluetoothDevice device, BluetoothConnectionListener listener, Context context) {
         mmDevice = device;
         mmListener = listener;
         mmContext = context;
-    }
-
-    public BluetoothConnectionTask() {
     }
 
     @Override
@@ -105,7 +88,7 @@ public class BluetoothConnectionTask extends AsyncTask<Void, Void, BluetoothDevi
         }
     }
 
-    public void desconnect()
+    public void disconnect()
     {
         try {
             if (mmOutStream != null) {
@@ -117,9 +100,13 @@ public class BluetoothConnectionTask extends AsyncTask<Void, Void, BluetoothDevi
                 mmSocket = null;
             }
             connected = false;
-            cancel(true);
+            mmListener.setDisconnected();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }

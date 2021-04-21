@@ -2,6 +2,7 @@
     <string name="app_name">Ardu Bluetooth</string>
     <string name="title_leds">Leds</string>
     <string name="title_bluetooth">Bluetooth</string>
+    <string name="title_servo">Servo</string>
     <string name="title_settings">Configurações</string>
     <string name="text_leds">Leds</string>
     <string name="text_pinos">Pinos</string>
@@ -21,15 +22,14 @@
         <item>11</item>
         <item>12</item>
         <item>13</item>
-        <item>A0</item>
-        <item>A1</item>
-        <item>A2</item>
-        <item>A3</item>
-        <item>A4</item>
-        <item>A5</item>
     </string-array>
+
     <string name="high">High</string>
     <string name="low">Low</string>
     <string name="desconectar">Desconectar</string>
+    <string name="angulo">Ângulo</string>
+    <string name="pino">Pino</string>
+    <string name="angulo_zero">0</string>
+    <string name="bluetooth">Bluetooth</string>
 
 </resources>

@@ -7,7 +7,7 @@
     tools:context=".ui.leds.LedsFragment">
 
     <ImageButton
-        android:id="@+id/ledRed"
+        android:id="@+id/servoMoto"
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_marginStart="16dp"
@@ -27,8 +27,8 @@
         android:src="@drawable/led_yellow_low"
         app:layout_constraintEnd_toStartOf="@+id/ledGreen"
         app:layout_constraintHorizontal_bias="0.514"
-        app:layout_constraintStart_toEndOf="@+id/ledRed"
-        app:layout_constraintTop_toTopOf="@+id/ledRed" />
+        app:layout_constraintStart_toEndOf="@+id/servoMoto"
+        app:layout_constraintTop_toTopOf="@+id/servoMoto" />
 
     <ImageButton
         android:id="@+id/ledGreen"
@@ -96,8 +96,8 @@
         android:showText="true"
         android:textOff="@string/low"
         android:textOn="@string/high"
-        app:layout_constraintEnd_toEndOf="@+id/ledRed"
-        app:layout_constraintStart_toStartOf="@+id/ledRed"
+        app:layout_constraintEnd_toEndOf="@+id/servoMoto"
+        app:layout_constraintStart_toStartOf="@+id/servoMoto"
         app:layout_constraintTop_toBottomOf="@+id/spinnerPinRed" />
 
     <Switch
