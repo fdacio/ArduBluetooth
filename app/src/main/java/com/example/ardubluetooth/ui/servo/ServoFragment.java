@@ -1,6 +1,5 @@
 package com.example.ardubluetooth.ui.servo;
 
-import android.media.RemoteController;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +42,7 @@ public class ServoFragment extends Fragment {
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
