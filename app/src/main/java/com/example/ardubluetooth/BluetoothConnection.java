@@ -23,16 +23,10 @@ public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> 
     private Context mmContext;
     private ProgressDialog progressDialog;
 
-
     public BluetoothConnection(BluetoothDevice device, BluetoothConnectionListener listener, Context context) {
         mmDevice = device;
         mmListener = listener;
         mmContext = context;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        progressDialog = ProgressDialog.show(mmContext, "Bluetooth", "Aguarde, pareando ...");
     }
 
     @Override
@@ -69,10 +63,16 @@ public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> 
     }
 
     @Override
+    protected void onPreExecute() {
+        progressDialog = ProgressDialog.show(mmContext, "Bluetooth", "Aguarde, pareando ...");
+    }
+
+    @Override
     protected void onPostExecute(BluetoothDevice device) {
         progressDialog.dismiss();
         if (connected) {
             mmListener.setConnected(device);
+            //new Thread(new LiveConnection()).start();
         } else {
             Toast.makeText(mmContext, "Não foi possível conectar.", Toast.LENGTH_LONG).show();
         }
@@ -84,12 +84,12 @@ public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> 
                 mmOutStream.write(buffer);
             }
         } catch (IOException e) {
+            connected = false;
             e.printStackTrace();
         }
     }
 
-    public void disconnect()
-    {
+    public void disconnect() {
         try {
             if (mmOutStream != null) {
                 mmOutStream.close();
@@ -108,5 +108,23 @@ public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> 
 
     public boolean isConnected() {
         return connected;
+    }
+
+    private class LiveConnection implements Runnable {
+
+        @Override
+        public void run() {
+            while(true) {
+                try {
+                    BluetoothDevice device = mmSocket.getRemoteDevice();
+                    if (device == null) {
+                        mmListener.setDisconnected();
+                    }
+                } catch (Exception e) {
+                    mmListener.setDisconnected();
+                }
+            }
+
+        }
     }
 }

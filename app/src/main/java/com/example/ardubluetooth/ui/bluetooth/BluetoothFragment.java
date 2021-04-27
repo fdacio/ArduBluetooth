@@ -43,7 +43,6 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
 
     private static final int REQUEST_PERMISSION_BLUETOOTH = 2;
     private BluetoothAdapter bluetoothAdapter;
-    private BluetoothViewModel bluetoothViewModel;
     private final static int REQUEST_ENABLE_BLUETOOTH = 1;
     private ArrayList<BluetoothDevice> listDevices = new ArrayList<BluetoothDevice>();
     private ListView listViewDevices;
@@ -55,8 +54,6 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         setHasOptionsMenu(true); // Torna o menu action bar visivel;
-
-        bluetoothViewModel = new ViewModelProvider(this).get(BluetoothViewModel.class);
 
         root = inflater.inflate(R.layout.fragment_bluetooth, container, false);
 
@@ -243,9 +240,8 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null) {
             ActionBar toolbar = activity.getSupportActionBar();
-
             if (toolbar != null) {
-                String message = "Pareado com " + device.getName();
+                String message = "Conectado com " + device.getName();
                 toolbar.setSubtitle(message);
                 requireActivity().invalidateOptionsMenu();
             }
@@ -261,8 +257,11 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
                 toolbar.setSubtitle(null);
                 requireActivity().invalidateOptionsMenu();
             }
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Desconectado", Toast.LENGTH_LONG).show();
+            }
         }
-    }
 
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.example.ardubluetooth.ui.leds;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,11 +34,10 @@ public class LedsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        if (savedInstanceState != null && savedInstanceState.getBoolean("STATE_SAVE")) {
-            return root;
-        }
 
         root = inflater.inflate(R.layout.fragment_leds, container, false);
+
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
         spinnerPinRed = root.findViewById(R.id.spinnerPinRed);
         spinnerPinYellow = root.findViewById(R.id.spinnerPinYellow);
@@ -44,6 +45,9 @@ public class LedsFragment extends Fragment {
         switchRed = root.findViewById(R.id.switchRed);
         switchYellow = root.findViewById(R.id.switchYellow);
         switchGreen = root.findViewById(R.id.switchGreen);
+        imageButtonLedRed = root.findViewById(R.id.ledRed);
+        imageButtonLedYellow = root.findViewById(R.id.ledYellow);
+        imageButtonLedGreen = root.findViewById(R.id.ledGreen);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.pins_arduino, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -52,11 +56,29 @@ public class LedsFragment extends Fragment {
         spinnerPinYellow.setAdapter(adapter);
         spinnerPinGreen.setAdapter(adapter);
 
-        spinnerPinRed.setSelection(0);
-        spinnerPinYellow.setSelection(1);
-        spinnerPinGreen.setSelection(2);
+        spinnerPinRed.setSelection(sharedPref.getInt("PIN_LED_RED",0));
+        spinnerPinYellow.setSelection(sharedPref.getInt("PIN_LED_YELLOW",1));
+        spinnerPinGreen.setSelection(sharedPref.getInt("PIN_LED_GREEN",2));
 
-        imageButtonLedRed = root.findViewById(R.id.servoMoto);
+        switchRed.setChecked(sharedPref.getInt("SINAL_LED_RED",0) == 1);
+        switchYellow.setChecked(sharedPref.getInt("SINAL_LED_YELLOW",0) == 1);
+        switchGreen.setChecked(sharedPref.getInt("SINAL_LED_GREEN",0) == 1);
+        if (!switchRed.isChecked()) {
+            imageButtonLedRed.setImageResource(R.drawable.led_red);
+        } else {
+            imageButtonLedRed.setImageResource(R.drawable.led_red_low);
+        }
+        if (!switchYellow.isChecked()) {
+            imageButtonLedYellow.setImageResource(R.drawable.led_yellow);
+        } else {
+            imageButtonLedYellow.setImageResource(R.drawable.led_yellow_low);
+        }
+        if (!switchGreen.isChecked()) {
+            imageButtonLedGreen.setImageResource(R.drawable.led_green);
+        } else {
+            imageButtonLedGreen.setImageResource(R.drawable.led_green_low);
+        }
+
         imageButtonLedRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +99,6 @@ public class LedsFragment extends Fragment {
             }
         });
 
-        imageButtonLedYellow = root.findViewById(R.id.ledYellow);
         imageButtonLedYellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +119,6 @@ public class LedsFragment extends Fragment {
             }
         });
 
-        imageButtonLedGreen = root.findViewById(R.id.ledGreen);
         imageButtonLedGreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,10 +143,17 @@ public class LedsFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putBoolean("STATE_SAVE", true);
-        super.onSaveInstanceState(outState);
+    public void onDestroy() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("PIN_LED_RED",  spinnerPinRed.getSelectedItemPosition());
+        editor.putInt("PIN_LED_YELLOW",  spinnerPinYellow.getSelectedItemPosition());
+        editor.putInt("PIN_LED_GREEN",  spinnerPinGreen.getSelectedItemPosition());
+        editor.putInt("SINAL_LED_RED", (switchRed.isChecked()) ? 1 : 0);
+        editor.putInt("SINAL_LED_YELLOW", (switchYellow.isChecked()) ? 1 : 0);
+        editor.putInt("SINAL_LED_GREEN", (switchGreen.isChecked()) ? 1 : 0);
+        editor.commit();
+        super.onDestroy();
     }
-
 
 }

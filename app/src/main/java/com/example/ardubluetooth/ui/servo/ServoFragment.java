@@ -1,5 +1,7 @@
 package com.example.ardubluetooth.ui.servo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,17 +21,24 @@ import com.example.ardubluetooth.R;
 
 public class ServoFragment extends Fragment {
 
+    private Spinner spinnerPinServo;
+    private SeekBar seekBarAngulo;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_servo, container, false);
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 
-        Spinner spinnerPinServo = root.findViewById(R.id.spinnerPinServo);
-        SeekBar seekBarAngulo = root.findViewById(R.id.seekBarAngulo);
+        spinnerPinServo = root.findViewById(R.id.spinnerPinServo);
+        seekBarAngulo = root.findViewById(R.id.seekBarAngulo);
         TextView textViewAngulo = root.findViewById(R.id.textViewAngulo);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.pins_arduino, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPinServo.setAdapter(adapter);
-        spinnerPinServo.setSelection(3);
+
+        spinnerPinServo.setSelection(sharedPref.getInt("PIN_SERVO",0));
+        seekBarAngulo.setProgress(sharedPref.getInt("ANGULO_SERVO",0));
+        textViewAngulo.setText(String.valueOf(sharedPref.getInt("ANGULO_SERVO",0)));
 
         seekBarAngulo.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -65,5 +74,15 @@ public class ServoFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onDestroy() {
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("PIN_SERVO",  spinnerPinServo.getSelectedItemPosition());
+        editor.putInt("ANGULO_SERVO",  seekBarAngulo.getProgress());
+        editor.commit();
+        super.onDestroy();
     }
 }
