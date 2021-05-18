@@ -9,6 +9,11 @@
         android:icon="@drawable/led_red"
         android:title="@string/title_leds" />
     <item
+        android:id="@id/navigation_power"
+        android:icon="@drawable/light_low"
+        android:title="@string/title_power" />
+
+    <item
         android:id="@+id/navigation_servo"
         android:icon="@drawable/servo"
         android:title="@string/title_servo" />

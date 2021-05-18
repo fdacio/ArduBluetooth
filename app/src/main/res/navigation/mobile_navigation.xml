@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_leds" />
 
     <fragment
+        android:id="@+id/navigation_power"
+        android:name="com.example.ardubluetooth.ui.power.PowerFragment"
+        android:label="@string/title_power"
+        tools:layout="@layout/fragment_power" />
+
+    <fragment
         android:id="@+id/navigation_bluetooth"
         android:name="com.example.ardubluetooth.ui.bluetooth.BluetoothFragment"
         android:label="@string/title_bluetooth"

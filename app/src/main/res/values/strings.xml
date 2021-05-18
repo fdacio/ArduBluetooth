@@ -2,12 +2,13 @@
     <string name="app_name">Ardu Bluetooth</string>
     <string name="title_leds">Leds</string>
     <string name="title_bluetooth">Bluetooth</string>
+    <string name="title_power">Lâmpada</string>
     <string name="title_servo">Servo Motor</string>
     <string name="title_settings">Configurações</string>
     <string name="text_leds">Leds</string>
     <string name="text_pinos">Pinos</string>
     <string name="search_devices">Procurar Dispositivos</string>
-    <string name="sinal" >Sinal</string>
+    <string name="sinal">Sinal</string>
 
     <string-array name="pins_arduino">
         <item>2</item>
@@ -29,6 +30,7 @@
     <string name="desconectar">Desconectar</string>
     <string name="angulo">Ângulo</string>
     <string name="pino">Pino</string>
+    <string name="power">Power</string>
     <string name="angulo_zero">0</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="instrucoes">Instruções para o Módulo Bluetooth HC-06</string>
@@ -55,5 +57,7 @@
         13  - Porta digital 13\n
         180 - Ângulo 180\n
     </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

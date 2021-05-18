@@ -101,9 +101,10 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
             }
         });
 
+
         enableBluetooth();
         grantAccessLocation();
-        loadDevicesBonded();
+
 
         return root;
     }
@@ -127,7 +128,6 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
                 }
                 return true;
             }
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -215,12 +215,13 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onResume() {
+        loadDevicesBonded();
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
-        getContext().getApplicationContext().unregisterReceiver(receiver);
+         getContext().getApplicationContext().unregisterReceiver(receiver);
         super.onDestroy();
     }
 
