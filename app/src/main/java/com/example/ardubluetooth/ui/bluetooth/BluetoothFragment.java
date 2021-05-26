@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -78,6 +79,8 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
                     if (!listDevices.contains(device)) {
                         listDevices.add(device);
                     }
+                }  else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                    setDisconnected();
                 }
             }
         };
@@ -231,6 +234,10 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
     //Pareamento de dispositivos no click do item da listview
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (BluetoothInstance.isConnected()) {
+            Toast.makeText(mContext, "Dispositivo já conectado", Toast.LENGTH_LONG).show();
+            return;
+        }
         devicePaired = listDevices.get(position);
         BluetoothConnection bluetoothConnection = new BluetoothConnection(devicePaired, this, mContext);
         BluetoothInstance.setInstance(bluetoothConnection);
