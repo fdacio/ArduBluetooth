@@ -34,7 +34,7 @@
     <string name="angulo_zero">0</string>
     <string name="bluetooth">Bluetooth</string>
     <string name="instrucoes">Instruções para o Módulo Bluetooth HC-06</string>
-    <string name="instrucao_leds">Instrução enviada para os leds é um número entre 20 e 131.\nOnde o último dígito no número representa o sinal enviado para o led (0=LOW;1=HIGH) e o número restante representa a porta digital onde o led está ligado.\n
+    <string name="instrucao_leds">Instrução enviada para o Arduino é um número entre 20 e 131.\nOnde o último dígito no número representa o sinal enviado para o led (0=LOW;1=HIGH) e o número restante representa a porta digital onde o componente está ligado.\n
         <b>Exemplo</b>\n
         21 enviado\n
         2 - Porta digital 2\n
@@ -57,7 +57,6 @@
         13  - Porta digital 13\n
         180 - Ângulo 180\n
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="leds_lampada">Leds e Lâmpada</string>
 
 </resources>
