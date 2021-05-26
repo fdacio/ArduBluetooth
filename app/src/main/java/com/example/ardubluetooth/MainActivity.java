@@ -1,13 +1,7 @@
 package com.example.ardubluetooth;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -36,10 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
-        if (bluetoothConnection != null) {
-            bluetoothConnection.disconnect();
-        }
+        BluetoothInstance.disconnect();
         super.onDestroy();
     }
 

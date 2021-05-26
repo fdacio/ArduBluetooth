@@ -23,15 +23,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ardubluetooth.BluetoothConnectionListener;
 import com.example.ardubluetooth.BluetoothConnection;
+import com.example.ardubluetooth.BluetoothConnectionListener;
 import com.example.ardubluetooth.BluetoothInstance;
 import com.example.ardubluetooth.DevicesBluetoothAdapter;
 import com.example.ardubluetooth.R;
@@ -50,6 +48,13 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
     private ProgressDialog mProgressDlg;
     private View root;
     private BluetoothDevice devicePaired;
+    private Context mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -65,7 +70,7 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
                     mProgressDlg.show();
                 } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                     mProgressDlg.dismiss();
-                    DevicesBluetoothAdapter devicesBluetoothAdapter = new DevicesBluetoothAdapter(getContext());
+                    DevicesBluetoothAdapter devicesBluetoothAdapter = new DevicesBluetoothAdapter(mContext);
                     devicesBluetoothAdapter.setData(listDevices);
                     listViewDevices.setAdapter(devicesBluetoothAdapter);
                 } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
@@ -83,12 +88,12 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
-        getContext().getApplicationContext().registerReceiver(receiver, filter);
+        mContext.getApplicationContext().registerReceiver(receiver, filter);
 
         listViewDevices = root.findViewById(R.id.listViewDevices);
         listViewDevices.setOnItemClickListener(this);
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        mProgressDlg = new ProgressDialog(getContext());
+        mProgressDlg = new ProgressDialog(mContext);
 
         mProgressDlg.setTitle("Bluetooth");
         mProgressDlg.setMessage("Aguarde, procurando por dispositivos.");
@@ -101,10 +106,8 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
             }
         });
 
-
         enableBluetooth();
         grantAccessLocation();
-
 
         return root;
     }
@@ -117,11 +120,11 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_bluetooth:  {
+            case R.id.action_bluetooth: {
                 bluetoothAdapter.startDiscovery();
                 return true;
             }
-            case R.id.action_bluetooth_disconnect:  {
+            case R.id.action_bluetooth_disconnect: {
                 BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
                 if (bluetoothConnection != null) {
                     bluetoothConnection.disconnect();
@@ -150,9 +153,9 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private void grantAccessLocation() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)) {
-                Toast.makeText(getContext(), "Permissão de localização deve ser concedida.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Permissão de localização deve ser concedida.", Toast.LENGTH_SHORT).show();
             } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_BLUETOOTH);
             }
@@ -182,7 +185,7 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
         for (BluetoothDevice device : bondedDevice) {
             listDevices.add(device);
         }
-        DevicesBluetoothAdapter devicesBluetoothAdapter = new DevicesBluetoothAdapter(getContext());
+        DevicesBluetoothAdapter devicesBluetoothAdapter = new DevicesBluetoothAdapter(mContext);
         devicesBluetoothAdapter.setData(listDevices);
         listViewDevices.setAdapter(devicesBluetoothAdapter);
     }
@@ -195,7 +198,7 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
             String bluetoothDeviceName = bluetoothAdapter.getName();
             String bluetoothDeviceAdrress = bluetoothAdapter.getAddress();
-            Toast.makeText(this.getContext(), bluetoothDeviceName + ":" + bluetoothDeviceAdrress, Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, bluetoothDeviceName + ":" + bluetoothDeviceAdrress, Toast.LENGTH_LONG).show();
 
             Intent discoverableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
             startActivity(discoverableBluetoothIntent);
@@ -221,7 +224,7 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onDestroy() {
-         getContext().getApplicationContext().unregisterReceiver(receiver);
+        mContext.getApplicationContext().unregisterReceiver(receiver);
         super.onDestroy();
     }
 
@@ -229,40 +232,26 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         devicePaired = listDevices.get(position);
-        BluetoothConnection bluetoothConnection = new BluetoothConnection(devicePaired, this, this.getContext());
+        BluetoothConnection bluetoothConnection = new BluetoothConnection(devicePaired, this, mContext);
         BluetoothInstance.setInstance(bluetoothConnection);
-        if (bluetoothConnection.getStatus() == AsyncTask.Status.PENDING || bluetoothConnection.getStatus() == AsyncTask.Status.FINISHED ) {
+        if (bluetoothConnection.getStatus() == AsyncTask.Status.PENDING || bluetoothConnection.getStatus() == AsyncTask.Status.FINISHED) {
             bluetoothConnection.execute();
         }
     }
 
     @Override
     public void setConnected(BluetoothDevice device) {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            ActionBar toolbar = activity.getSupportActionBar();
-            if (toolbar != null) {
-                String message = "Conectado com " + device.getName();
-                toolbar.setSubtitle(message);
-                requireActivity().invalidateOptionsMenu();
-            }
-        }
+        AppCompatActivity activity = (AppCompatActivity) mContext;
+        String message = "Conectado com " + device.getName();
+        activity.getSupportActionBar().setSubtitle(message);
+        activity.invalidateOptionsMenu();
     }
 
     @Override
     public void setDisconnected() {
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if (activity != null) {
-            ActionBar toolbar = activity.getSupportActionBar();
-            if (toolbar != null) {
-                toolbar.setSubtitle(null);
-                requireActivity().invalidateOptionsMenu();
-            }
-            if (getContext() != null) {
-                Toast.makeText(getContext(), "Desconectado", Toast.LENGTH_LONG).show();
-            }
-        }
-
+        AppCompatActivity activity = (AppCompatActivity) mContext;
+        activity.getSupportActionBar().setSubtitle(null);
+        activity.invalidateOptionsMenu();
     }
 
 }

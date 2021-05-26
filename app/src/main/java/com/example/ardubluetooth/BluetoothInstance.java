@@ -12,4 +12,16 @@ public class BluetoothInstance {
         mmInstance = instance;
     }
 
+    public static boolean isConnected() {
+        if (mmInstance == null) return false;
+        if (!mmInstance.isConnected()) return false;
+        return true;
+    }
+
+    public static void disconnect() {
+        if (mmInstance != null) {
+            mmInstance.disconnect();
+        }
+    }
+
 }

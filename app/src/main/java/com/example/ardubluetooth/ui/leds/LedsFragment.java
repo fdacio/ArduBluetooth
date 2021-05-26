@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,7 +31,13 @@ public class LedsFragment extends Fragment {
     private ImageButton imageButtonLedRed;
     private ImageButton imageButtonLedYellow;
     private ImageButton imageButtonLedGreen;
+    private Context mContext;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -56,13 +63,13 @@ public class LedsFragment extends Fragment {
         spinnerPinYellow.setAdapter(adapter);
         spinnerPinGreen.setAdapter(adapter);
 
-        spinnerPinRed.setSelection(sharedPref.getInt("PIN_LED_RED",0));
-        spinnerPinYellow.setSelection(sharedPref.getInt("PIN_LED_YELLOW",1));
-        spinnerPinGreen.setSelection(sharedPref.getInt("PIN_LED_GREEN",2));
+        spinnerPinRed.setSelection(sharedPref.getInt("PIN_LED_RED", 0));
+        spinnerPinYellow.setSelection(sharedPref.getInt("PIN_LED_YELLOW", 1));
+        spinnerPinGreen.setSelection(sharedPref.getInt("PIN_LED_GREEN", 2));
 
-        switchRed.setChecked(sharedPref.getInt("SINAL_LED_RED",0) == 1);
-        switchYellow.setChecked(sharedPref.getInt("SINAL_LED_YELLOW",0) == 1);
-        switchGreen.setChecked(sharedPref.getInt("SINAL_LED_GREEN",0) == 1);
+        switchRed.setChecked(sharedPref.getInt("SINAL_LED_RED", 0) == 1);
+        switchYellow.setChecked(sharedPref.getInt("SINAL_LED_YELLOW", 0) == 1);
+        switchGreen.setChecked(sharedPref.getInt("SINAL_LED_GREEN", 0) == 1);
         if (!switchRed.isChecked()) {
             imageButtonLedRed.setImageResource(R.drawable.led_red);
         } else {
@@ -82,6 +89,13 @@ public class LedsFragment extends Fragment {
         imageButtonLedRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (!BluetoothInstance.isConnected()) {
+                    Toast.makeText(mContext, "Não há dispositivo conectado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
+
                 switchRed.setChecked(!switchRed.isChecked());
                 if (!switchRed.isChecked()) {
                     imageButtonLedRed.setImageResource(R.drawable.led_red);
@@ -92,16 +106,21 @@ public class LedsFragment extends Fragment {
                 int pino = Integer.parseInt(spinnerPinRed.getSelectedItem().toString());
                 int sinal = (switchRed.isChecked()) ? 0 : 1;
 
-                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
-                if (bluetoothConnection != null) {
-                    bluetoothConnection.write(String.valueOf((pino * 10) + sinal).getBytes());
-                }
+                bluetoothConnection.write(String.valueOf((pino * 10) + sinal).getBytes());
+
             }
         });
 
         imageButtonLedYellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (!BluetoothInstance.isConnected()) {
+                    Toast.makeText(mContext, "Não há dispositivo conectado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
+
                 switchYellow.setChecked(!switchYellow.isChecked());
                 if (!switchYellow.isChecked()) {
                     imageButtonLedYellow.setImageResource(R.drawable.led_yellow);
@@ -112,16 +131,21 @@ public class LedsFragment extends Fragment {
                 int pino = Integer.parseInt(spinnerPinYellow.getSelectedItem().toString());
                 int sinal = (switchYellow.isChecked()) ? 0 : 1;
 
-                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
-                if (bluetoothConnection != null) {
-                    bluetoothConnection.write(String.valueOf((pino * 10) + sinal).getBytes());
-                }
+                bluetoothConnection.write(String.valueOf((pino * 10) + sinal).getBytes());
+
             }
         });
 
         imageButtonLedGreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (!BluetoothInstance.isConnected()) {
+                    Toast.makeText(mContext, "Não há dispositivo conectado", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
+
                 switchGreen.setChecked(!switchGreen.isChecked());
                 if (!switchGreen.isChecked()) {
                     imageButtonLedGreen.setImageResource(R.drawable.led_green);
@@ -132,10 +156,8 @@ public class LedsFragment extends Fragment {
                 int pino = Integer.parseInt(spinnerPinGreen.getSelectedItem().toString());
                 int sinal = (switchGreen.isChecked()) ? 0 : 1;
 
-                BluetoothConnection bluetoothConnection = BluetoothInstance.getInstance();
-                if (bluetoothConnection != null) {
-                    bluetoothConnection.write(String.valueOf((pino * 10) + sinal).getBytes());
-                }
+                bluetoothConnection.write(String.valueOf((pino * 10) + sinal).getBytes());
+
             }
         });
 
@@ -146,9 +168,9 @@ public class LedsFragment extends Fragment {
     public void onDestroy() {
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("PIN_LED_RED",  spinnerPinRed.getSelectedItemPosition());
-        editor.putInt("PIN_LED_YELLOW",  spinnerPinYellow.getSelectedItemPosition());
-        editor.putInt("PIN_LED_GREEN",  spinnerPinGreen.getSelectedItemPosition());
+        editor.putInt("PIN_LED_RED", spinnerPinRed.getSelectedItemPosition());
+        editor.putInt("PIN_LED_YELLOW", spinnerPinYellow.getSelectedItemPosition());
+        editor.putInt("PIN_LED_GREEN", spinnerPinGreen.getSelectedItemPosition());
         editor.putInt("SINAL_LED_RED", (switchRed.isChecked()) ? 1 : 0);
         editor.putInt("SINAL_LED_YELLOW", (switchYellow.isChecked()) ? 1 : 0);
         editor.putInt("SINAL_LED_GREEN", (switchGreen.isChecked()) ? 1 : 0);

@@ -72,7 +72,8 @@ public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> 
         progressDialog.dismiss();
         if (connected) {
             mmListener.setConnected(device);
-            //new Thread(new LiveConnection()).start();
+            Thread liveConnection = new Thread(new LiveConnection());
+            liveConnection.start();
         } else {
             Toast.makeText(mmContext, "Não foi possível conectar.", Toast.LENGTH_LONG).show();
         }
@@ -115,11 +116,13 @@ public class BluetoothConnection extends AsyncTask<Void, Void, BluetoothDevice> 
         @Override
         public void run() {
             while(true) {
+
                 try {
-                    BluetoothDevice device = mmSocket.getRemoteDevice();
-                    if (device == null) {
+
+                    if (mmSocket.getInputStream() == null) {
                         mmListener.setDisconnected();
                     }
+
                 } catch (Exception e) {
                     mmListener.setDisconnected();
                 }
