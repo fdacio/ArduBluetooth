@@ -41,7 +41,6 @@ public class LedsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
         root = inflater.inflate(R.layout.fragment_leds, container, false);
 
         SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -70,6 +69,7 @@ public class LedsFragment extends Fragment {
         switchRed.setChecked(sharedPref.getInt("SINAL_LED_RED", 0) == 1);
         switchYellow.setChecked(sharedPref.getInt("SINAL_LED_YELLOW", 0) == 1);
         switchGreen.setChecked(sharedPref.getInt("SINAL_LED_GREEN", 0) == 1);
+
         if (!switchRed.isChecked()) {
             imageButtonLedRed.setImageResource(R.drawable.led_red);
         } else {

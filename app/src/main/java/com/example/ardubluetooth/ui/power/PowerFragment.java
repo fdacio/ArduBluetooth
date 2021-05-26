@@ -18,7 +18,6 @@ import com.example.ardubluetooth.BluetoothConnection;
 import com.example.ardubluetooth.BluetoothInstance;
 import com.example.ardubluetooth.R;
 
-
 public class PowerFragment extends Fragment {
 
     private View root;
@@ -49,6 +48,13 @@ public class PowerFragment extends Fragment {
         spinnerPinPower.setAdapter(adapter);
 
         spinnerPinPower.setSelection(sharedPref.getInt("PIN_POWER", 0));
+        switchPower.setChecked(sharedPref.getInt("SINAL_POWER", 0) == 1);
+
+        if (!switchPower.isChecked()) {
+            imageButtonPower.setImageResource(R.drawable.light_high);
+        } else {
+            imageButtonPower.setImageResource(R.drawable.light_low);
+        }
 
         imageButtonPower.setOnClickListener(new View.OnClickListener() {
             @Override
