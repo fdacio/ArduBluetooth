@@ -78,9 +78,12 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
                     if (!listDevices.contains(device)) {
                         listDevices.add(device);
                     }
-                }  else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                } else if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                    setDisconnected();
+                } else if (BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED.equals(action)) {
                     setDisconnected();
                 }
+
             }
         };
 
