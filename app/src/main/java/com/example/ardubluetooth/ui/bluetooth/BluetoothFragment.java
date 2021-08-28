@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -262,5 +263,13 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
         activity.getSupportActionBar().setSubtitle(null);
         activity.invalidateOptionsMenu();
     }
+
+    @Override
+    public void listenerServer(byte[] dados) {
+        for (int i = 0; i < 1024; i++) {
+            Log.i("DATA_SERVER", String.valueOf((char)dados[i]));
+        }
+    }
+
 
 }
