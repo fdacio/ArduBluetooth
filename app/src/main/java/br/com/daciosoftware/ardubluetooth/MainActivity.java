@@ -1,6 +1,8 @@
-package com.example.ardubluetooth;
+package br.com.daciosoftware.ardubluetooth;
 
 import android.os.Bundle;
+
+import com.daciosoftware.ardubluetooth.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

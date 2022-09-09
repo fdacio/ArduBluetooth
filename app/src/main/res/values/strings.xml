@@ -7,7 +7,8 @@
     <string name="title_settings">Configurações</string>
     <string name="text_leds">Leds</string>
     <string name="text_pinos">Pinos</string>
-    <string name="search_devices">Procurar Dispositivos</string>
+    <string name="search_devices">Procurar</string>
+    <string name="disconnect_device">Disconectar</string>
     <string name="sinal">Sinal</string>
 
     <string-array name="pins_arduino">
@@ -35,6 +36,8 @@
         <item>23</item>
         <item>24</item>
         <item>25</item>
+        <item>26</item>
+
     </string-array>
 
     <string name="high">High</string>

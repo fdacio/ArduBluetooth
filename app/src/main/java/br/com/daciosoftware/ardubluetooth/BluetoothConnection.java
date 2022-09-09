@@ -1,4 +1,4 @@
-package com.example.ardubluetooth;
+package br.com.daciosoftware.ardubluetooth;
 
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;

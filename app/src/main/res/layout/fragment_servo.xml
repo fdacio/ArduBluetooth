@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.leds.LedsFragment">
+    tools:context="br.com.daciosoftware.ardubluetooth.ui.leds.LedsFragment">
 
     <ImageButton
         android:id="@+id/imageButtonServo"

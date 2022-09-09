@@ -1,8 +1,10 @@
-package com.example.ardubluetooth;
+package br.com.daciosoftware.ardubluetooth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.daciosoftware.ardubluetooth.R;
 
 public class AutomacaoActivity extends AppCompatActivity {
 

@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_leds"
-        android:name="com.example.ardubluetooth.ui.leds.LedsFragment"
+        android:name="br.com.daciosoftware.ardubluetooth.ui.leds.LedsFragment"
         android:label="@string/title_leds"
         tools:layout="@layout/fragment_leds" />
 
     <fragment
         android:id="@+id/navigation_power"
-        android:name="com.example.ardubluetooth.ui.power.PowerFragment"
+        android:name="br.com.daciosoftware.ardubluetooth.ui.power.PowerFragment"
         android:label="@string/title_power"
         tools:layout="@layout/fragment_power" />
 
     <fragment
         android:id="@+id/navigation_bluetooth"
-        android:name="com.example.ardubluetooth.ui.bluetooth.BluetoothFragment"
+        android:name="br.com.daciosoftware.ardubluetooth.ui.bluetooth.BluetoothFragment"
         android:label="@string/title_bluetooth"
         tools:layout="@layout/fragment_bluetooth" />
 
     <fragment
         android:id="@+id/navigation_servo"
-        android:name="com.example.ardubluetooth.ui.servo.ServoFragment"
+        android:name="br.com.daciosoftware.ardubluetooth.ui.servo.ServoFragment"
         android:label="@string/title_servo"
         tools:layout="@layout/fragment_servo" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.ardubluetooth.ui.settings.SettingsFragment"
+        android:name="br.com.daciosoftware.ardubluetooth.ui.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

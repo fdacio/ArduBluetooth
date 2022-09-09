@@ -1,4 +1,4 @@
-package com.example.ardubluetooth.ui.bluetooth;
+package br.com.daciosoftware.ardubluetooth.ui.bluetooth;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -29,11 +29,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.ardubluetooth.BluetoothConnection;
-import com.example.ardubluetooth.BluetoothConnectionListener;
-import com.example.ardubluetooth.BluetoothInstance;
-import com.example.ardubluetooth.DevicesBluetoothAdapter;
-import com.example.ardubluetooth.R;
+import br.com.daciosoftware.ardubluetooth.BluetoothConnection;
+import br.com.daciosoftware.ardubluetooth.BluetoothConnectionListener;
+import br.com.daciosoftware.ardubluetooth.BluetoothInstance;
+import br.com.daciosoftware.ardubluetooth.DevicesBluetoothAdapter;
+import com.daciosoftware.ardubluetooth.R;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -95,6 +95,7 @@ public class BluetoothFragment extends Fragment implements AdapterView.OnItemCli
         filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
         mContext.getApplicationContext().registerReceiver(receiver, filter);
+         //getContext().getApplicationContext().registerReceiver(receiver, filter);
 
         listViewDevices = root.findViewById(R.id.listViewDevices);
         listViewDevices.setOnItemClickListener(this);

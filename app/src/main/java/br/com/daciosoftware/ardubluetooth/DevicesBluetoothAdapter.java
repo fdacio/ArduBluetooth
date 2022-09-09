@@ -1,16 +1,14 @@
-package com.example.ardubluetooth;
+package br.com.daciosoftware.ardubluetooth;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import com.daciosoftware.ardubluetooth.R;
 
 import java.util.List;
 

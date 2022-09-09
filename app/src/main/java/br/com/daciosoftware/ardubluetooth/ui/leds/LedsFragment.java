@@ -1,4 +1,4 @@
-package com.example.ardubluetooth.ui.leds;
+package br.com.daciosoftware.ardubluetooth.ui.leds;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,9 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.ardubluetooth.BluetoothConnection;
-import com.example.ardubluetooth.BluetoothInstance;
-import com.example.ardubluetooth.R;
+import br.com.daciosoftware.ardubluetooth.BluetoothConnection;
+import br.com.daciosoftware.ardubluetooth.BluetoothInstance;
+import com.daciosoftware.ardubluetooth.R;
 
 public class LedsFragment extends Fragment {
 
